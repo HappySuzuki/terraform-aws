@@ -36,3 +36,6 @@ terraform.rc
 
 # env
 .envrc
+
+# Misc
+ .DS_Store
