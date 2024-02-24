@@ -1,6 +1,6 @@
-# Terraform AWS
+# VPC EC2
 
-Infrastructure as Code and AWS cloud examples.
+VPC networking and EC2
 
 ## Terraform Commands
 
