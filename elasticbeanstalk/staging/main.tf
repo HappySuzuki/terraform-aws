@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket         = "web-app-demo-tf-state"
-    key            = "apps/web-app/production/terraform.tfstate"
+    bucket         = "beanstalk-app-demo-tf-state"
+    key            = "apps/beanstalk/staging/terraform.tfstate"
     region         = "us-east-2"
     dynamodb_table = "terraform-state-locking"
     encrypt        = true
@@ -19,30 +19,21 @@ provider "aws" {
   region = "us-east-2"
 }
 
-variable "db_pass" {
-  description = "password for database"
-  type        = string
-  sensitive   = true
-}
-
 locals {
-  environment_name = "production"
+  environment_name = "staging"
 }
 
-module "web_app" {
+module "beanstalk_app" {
   source = "../module"
 
-  bucket_prefix    = "web-app-data-${local.environment_name}"
-  app_name         = "web-app"
+  app_name         = "beanstalk-app-${local.environment_name}"
   environment_name = local.environment_name
   instance_type    = "t2.micro"
-  db_name          = "${local.environment_name}mydb"
-  db_user          = "db_user"
-  db_pass          = var.db_pass
+  env_vars         = var.env_vars
 }
 
 # resource "aws_s3_bucket" "terraform_state" {
-#   bucket        = "web-app-demo-tf-state"
+#   bucket        = "beanstalk-app-demo-tf-state"
 #   force_destroy = true
 # }
 
